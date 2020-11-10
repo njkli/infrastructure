@@ -1,0 +1,50 @@
+{
+    "gitignore.nix": {
+        "branch": "master",
+        "description": "Nix function for filtering local git sources",
+        "homepage": "",
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "rev": "c4662e662462e7bf3c2a968483478a665d00e717",
+        "sha256": "1npnx0h6bd0d7ql93ka7azhj40zgjp815fw2r6smg8ch9p7mzdlx",
+        "type": "tarball",
+        "url": "https://github.com/hercules-ci/gitignore.nix/archive/c4662e662462e7bf3c2a968483478a665d00e717.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs": {
+        "branch": "nixos-20.09",
+        "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
+        "homepage": "https://github.com/NixOS/nixpkgs",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "96052f35023070072cd5ac0f17a97a2a2269d5b9",
+        "sha256": "0rkpzkn3crz884silqqdr67vc87lx0s4vdw3b9w73m5jascn31d9",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/96052f35023070072cd5ac0f17a97a2a2269d5b9.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "pre-commit-hooks.nix": {
+        "branch": "master",
+        "description": "Seamless integration of https://pre-commit.com git hooks with Nix.",
+        "homepage": "",
+        "owner": "cachix",
+        "repo": "pre-commit-hooks.nix",
+        "rev": "ff137b7c39681b2eeeaa9bbbf86a03891099ae46",
+        "sha256": "0a8ivc1xgxlf3w9m740z9z3cgdb0hfh0yx4nd3nli8dmaxr55cms",
+        "type": "tarball",
+        "url": "https://github.com/cachix/pre-commit-hooks.nix/archive/ff137b7c39681b2eeeaa9bbbf86a03891099ae46.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "terranix": {
+        "branch": "2.3.0",
+        "description": "terranix is a terraform.json generator with a nix-like feeling",
+        "homepage": "https://terranix.org/",
+        "owner": "mrVanDalo",
+        "repo": "terranix",
+        "rev": "706b76a1109326931504259d7319ffdf88c2cfc1",
+        "sha256": "030067h3gjc02llaa7rx5iml0ikvw6szadm0nrss2sqzshsfimm4",
+        "type": "tarball",
+        "url": "https://github.com/mrVanDalo/terranix/archive/706b76a1109326931504259d7319ffdf88c2cfc1.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    }
+}
