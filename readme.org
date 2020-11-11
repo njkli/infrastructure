@@ -5,7 +5,14 @@
 ** k8s
    - [[https://github.com/longhorn/longhorn][Storage]]
 * resources:
-  [[https://github.com/nmattia/niv][niv]], [[https://github.com/hercules-ci/gitignore.nix][gitignore.nix]], [[https://github.com/cachix/pre-commit-hooks.nix][pre-commit-hooks.nix]], [[https://direnv.net][direnv]], [[https://github.com/features/actions][GitHub Actions]], Jfrog Artifactory, semaphoreci
+  - [[https://github.com/nmattia/niv][niv]]
+  - [[https://github.com/hercules-ci/gitignore.nix][gitignore.nix]]
+  - [[https://github.com/cachix/pre-commit-hooks.nix][pre-commit-hooks.nix]]
+  - [[https://direnv.net][direnv]]
+  - [[https://github.com/features/actions][GitHub Actions]]
+  - [[https://njk.jfrog.io][Jfrog Artifactory]]
+  - [[https://njk.semaphoreci.com][semaphoreci]]
+  - [[https://www.hcl2json.com/][HCL2JSON]]
 * VARIABLES
   - VULTR_API_KEY
   - NAMEDOTCOM_API_KEY
