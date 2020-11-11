@@ -8,11 +8,16 @@
   [[https://github.com/nmattia/niv][niv]], [[https://github.com/hercules-ci/gitignore.nix][gitignore.nix]], [[https://github.com/cachix/pre-commit-hooks.nix][pre-commit-hooks.nix]], [[https://direnv.net][direnv]], [[https://github.com/features/actions][GitHub Actions]], Jfrog Artifactory, semaphoreci
 * VARIABLES
   - VULTR_API_KEY
+  - NAMEDOTCOM_API_KEY
+  - NAMEDOTCOM_API_SECRET
   - CACHE_SIGNING_KEY
   - CACHIX_SIGNING_KEY
-  - CREDS_SCW_PROJECT_ID
-  - CREDS_PUSHOVER_USER
-  - CREDS_PUSHOVER_TOKEN
+  - SCW_PROJECT_ID
+  - PUSHOVER_USER
+  - PUSHOVER_TOKEN
+  - ARTIFACTORY_URL
+  - ARTIFACTORY_UNAME
+  - ARTIFACTORY_PASSWD
   - DEPLOY_DOMAIN
 * Info
   - cache public key cache.njk.li:Tl9V70P1dx1XWyD0lP9UQhqwDgWRzKrFzzu6Wnxeb/w=

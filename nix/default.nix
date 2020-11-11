@@ -3,7 +3,7 @@ let
   pkgs = import sources.nixpkgs { };
   inherit (pkgs) callPackage writeShellScriptBin;
   inherit (pkgs.lib) getAttrs mapAttrs;
-  inherit (builtins) toJSON;
+  inherit (builtins) toJSON fromJSON;
 
   gitignoreSource = (import sources."gitignore.nix" { inherit (pkgs) lib; }).gitignoreSource;
   pre-commit-hooks = (import sources."pre-commit-hooks.nix");
@@ -26,6 +26,17 @@ let
     { terraform = { inherit required_providers; }; };
 
   scripts = {
+    localDevCredentials = writeShellScriptBin "localDevCredentials" ''
+      [[ -r /persist/etc/nixos/systems/credentials.nix ]] && \
+        eval "$(nix-instantiate --eval /persist/etc/nixos/systems/credentials.nix --attr njk.credentials.export_shell --json | jq -r)" || true
+    '';
+
+    # nix-instantiate --eval /persist/etc/nixos/systems/credentials.nix --attr cachix.njk.publicKey --json | jq -r
+    # PASSWORD_STORE_TOMB_FILE=<tomb_path> PASSWORD_STORE_TOMB_KEY=<key_path> PASSWORD_STORE_DIR=<dir_path> pass open
+    # PASSWORD_STORE_TOMB_FILE=<tomb_path> PASSWORD_STORE_TOMB_KEY=<key_path> PASSWORD_STORE_DIR=<dir_path> pass close
+    # PASSWORD_STORE_DIR=$PWD/secrets
+
+    # FIXME: Should really switch to github caching of /nix dir or use cachix properly here
     binary-cache-build = writeShellScriptBin "binary-cache-build" ''
       BINCACHEDIR="''${PWD}/bincache"
       mkdir -p "''${BINCACHEDIR}"
@@ -52,7 +63,7 @@ let
       EOS
     '';
 
-    deploy = writeShellScriptBin "tf-deploy" ''
+    tf-deploy = writeShellScriptBin "tf-deploy" ''
       set -e
       set -o pipefail
       tf-required_providers
@@ -61,7 +72,7 @@ let
       terraform apply -input=false -auto-approve
     '';
 
-    destroy = writeShellScriptBin "tf-destroy" ''
+    tf-destroy = writeShellScriptBin "tf-destroy" ''
       terraform destroy
     '';
   };
@@ -99,7 +110,13 @@ in
         nix-linter.enable = true;
       };
       # generated files
-      excludes = [ "^nix/sources\.nix$" "^\.pre\-commit\-config\.yaml$" "^result$" ];
+      excludes = [
+        "^nix/sources\.nix$"
+        "^\.pre\-commit\-config\.yaml$"
+        "^result$"
+        "deploy/domain/config.nix"
+        "^deploy/domain/config.nix$"
+      ];
     };
   };
 }
