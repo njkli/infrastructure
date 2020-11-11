@@ -37,7 +37,23 @@ in
   resource.vultr_dns_domain."${domID_tf}" = {
     domain = dom;
     server_ip = "127.0.0.1";
-    provisioner.local-exec.command = ""; # NOTE: runs on create only!
+    # provisioner.local-exec.command = ""; # NOTE: runs on create only!
+    provisioner = [
+      {
+        local-exec = [
+          { command = ""; }
+        ];
+      }
+
+      {
+        local-exec = [
+          {
+            when = "destroy"; # NOTE: runs on associated resource destruction only!
+            command = "";
+          }
+        ];
+      }
+    ];
   };
 
   resource.null_resource.vultr_dns_domain_destroy_cleanup = {
