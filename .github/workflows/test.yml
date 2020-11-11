@@ -22,10 +22,11 @@ jobs:
         signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
     - name: Show nixpkgs version
       run: nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'
-    - name: Build binary cache
-      env:
-        CACHE_SIGNING_KEY: '${{ secrets.CACHE_SIGNING_KEY }}'
-      run: nix-shell --run "binary-cache-build"
+
+    # - name: Build binary cache
+    #   env:
+    #     CACHE_SIGNING_KEY: '${{ secrets.CACHE_SIGNING_KEY }}'
+    #   run: nix-shell --run "binary-cache-build"
 
     # - name: Upload binaries to release
     #   uses: svenstaro/upload-release-action@v2
