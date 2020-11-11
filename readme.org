@@ -1,0 +1,30 @@
+#+OPTIONS: \n:t
+* njk.li infrastructure
+** In short
+   building/deploying essentials with nix. Leveraging free tiers on ci/cd platforms.
+** k8s
+   - [[https://github.com/longhorn/longhorn][Storage]]
+* resources:
+  - [[https://github.com/nmattia/niv][niv]]
+  - [[https://github.com/hercules-ci/gitignore.nix][gitignore.nix]]
+  - [[https://github.com/cachix/pre-commit-hooks.nix][pre-commit-hooks.nix]]
+  - [[https://direnv.net][direnv]]
+  - [[https://github.com/features/actions][GitHub Actions]]
+  - [[https://njk.jfrog.io][Jfrog Artifactory]]
+  - [[https://njk.semaphoreci.com][semaphoreci]]
+  - [[https://www.hcl2json.com/][HCL2JSON]]
+* VARIABLES
+  - VULTR_API_KEY
+  - NAMEDOTCOM_API_KEY
+  - NAMEDOTCOM_API_SECRET
+  - CACHE_SIGNING_KEY
+  - CACHIX_SIGNING_KEY
+  - SCW_PROJECT_ID
+  - PUSHOVER_USER
+  - PUSHOVER_TOKEN
+  - ARTIFACTORY_URL
+  - ARTIFACTORY_UNAME
+  - ARTIFACTORY_PASSWD
+  - DEPLOY_DOMAIN
+* Info
+  - cache public key cache.njk.li:Tl9V70P1dx1XWyD0lP9UQhqwDgWRzKrFzzu6Wnxeb/w=
