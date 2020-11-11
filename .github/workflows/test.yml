@@ -16,7 +16,7 @@ jobs:
                 experimental-features = nix-command
                 binary-caches-parallel-connections = 10
                 connect-timeout = 5
-    - uses: cachix/cachix-action@v7
+    - uses: cachix/cachix-action@v8
       with:
         name: njk
         signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
