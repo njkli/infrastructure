@@ -12,7 +12,7 @@ let
   terranix_release = callPackage sources.terranix { };
 
   # NOTE: Set those before using, TF 0.13
-  terraform_providers = [ "null" "helm" "vultr" "digitalocean" "kubernetes" ];
+  terraform_providers = [ "null" "helm" "vultr" "digitalocean" "kubernetes" "github" ];
   terraform_plugins =
     let
       providers = (getAttrs terraform_providers pkgs.terraform-providers);
@@ -98,6 +98,7 @@ in
       fluxctl
       kubernetes-helm;
     terraform = pkgs.terraform_0_13.withPlugins (p: (map (x: p."${x}") terraform_providers));
+    # ruby = pkgs.ruby.withPackages (p: [ p.rbnacl ]);
   } // scripts;
 
   # to be built by github actions

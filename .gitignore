@@ -1,3 +1,6 @@
 /result
 /.pre-commit-config.yaml
 /deploy/**/.terraform
+/deploy/**/config.tf.json
+/deploy/terraform-providers.json
+/deploy/**/*.log
