@@ -27,6 +27,7 @@ in
     provider;
 
   # TODO: make vultr_dns module
+  # NOTE: https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/data_source
   resource.vultr_dns_domain."${domID_tf}" = {
     domain = dom;
     server_ip = "127.0.0.1";
@@ -34,7 +35,8 @@ in
       {
         local-exec = [
           {
-            command = "echo create"; # NOTE: runs on create only!
+            command = "./dns_provisioner.sh create ${dom}"; # NOTE: runs on create only!
+            interpreter = [ "bash" "-c" ];
           }
         ];
       }
@@ -43,7 +45,8 @@ in
         local-exec = [
           {
             when = "destroy"; # NOTE: runs on destroy only!
-            command = "echo destroy";
+            command = "./dns_provisioner.sh destroy ${dom}";
+            interpreter = [ "bash" "-c" ];
           }
         ];
       }

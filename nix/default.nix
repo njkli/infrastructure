@@ -93,6 +93,7 @@ in
       doctl
       github-release
       github-cli
+      dnsutils
       k9s
       kubectl
       fluxctl
