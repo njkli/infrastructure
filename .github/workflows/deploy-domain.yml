@@ -29,9 +29,18 @@ jobs:
       run: nix-shell --run 'nix-store -qR --include-outputs $(nix-instantiate shell.nix)'
     - name: Deploy domain
       env:
-        CACHE_SIGNING_KEY: '${{ secrets.CACHE_SIGNING_KEY }}'
+        CACHE_SIGNING_KEY: ${{ secrets.CACHE_SIGNING_KEY }}
+        ARTIFACTORY_PASSWD: ${{ secrets.ARTIFACTORY_PASSWD }}
+        ARTIFACTORY_UNAME: ${{ secrets.ARTIFACTORY_UNAME }}
+        ARTIFACTORY_URL: ${{ secrets.ARTIFACTORY_URL }}
+        CACHIX_SIGNING_KEY: ${{ secrets.CACHIX_SIGNING_KEY }}
+        DEPLOY_DOMAIN: ${{ secrets.DEPLOY_DOMAIN }}
+        NAMEDOTCOM_API_KEY: ${{ secrets.NAMEDOTCOM_API_KEY }}
+        NAMEDOTCOM_API_SECRET: ${{ secrets.NAMEDOTCOM_API_SECRET }}
+        PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_TOKEN }}
+        PUSHOVER_USER: ${{ secrets.PUSHOVER_USER }}
+        VULTR_API_KEY: ${{ secrets.VULTR_API_KEY }}
       run: nix-shell --run "cd deploy/domain && tf-deploy"
-
 
     # - name: Build binary cache
     #   env:

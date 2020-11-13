@@ -55,6 +55,10 @@ let
       rm -rf CACHE_SIGNING_KEY
     '';
 
+    github-actions-secrets-yaml = writeShellScriptBin "github-actions-secrets-yaml" ''
+      nix-instantiate --eval  /persist/etc/nixos/systems/credentials.nix --attr njk.credentials.export_actions --json | remarshal --if json --of yaml
+    '';
+
     tf-required_providers = writeShellScriptBin "tf-required_providers" ''
       cat > ../terraform-providers.json<<EOS
       ${toJSON terraform_plugins}
@@ -93,6 +97,7 @@ in
       github-release
       github-cli
       dnsutils
+      remarshal
       k9s
       kubectl
       fluxctl
