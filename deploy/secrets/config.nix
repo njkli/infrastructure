@@ -19,8 +19,6 @@ let
     (secret_name: plaintext_value: nameValuePair (toLower "gh_actions_secret_${secret_name}") {
       repository = "infrastructure";
       inherit secret_name plaintext_value;
-      # secret_name = secret_name;
-      # plaintext_value = s_value;
     })
     (import /persist/etc/nixos/systems/credentials.nix).njk.credentials.env;
 in
