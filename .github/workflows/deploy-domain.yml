@@ -1,10 +1,13 @@
 # {{secrets.GITHUB_TOKEN}} to auth for pkg publishing
-name: "Test"
+name: "Domain - deploy"
 on:
-  pull_request:
+  # pull_request:
   push:
+   paths:
+    - "deploy/**/*.nix"
+
 jobs:
-  tests:
+  deployment:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.3.4
@@ -22,6 +25,11 @@ jobs:
         signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
     - name: Show nixpkgs version
       run: nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'
+    - name: Deploy domain
+      env:
+        CACHE_SIGNING_KEY: '${{ secrets.CACHE_SIGNING_KEY }}'
+      run: nix-shell --run "cd deploy/domain && tf-deploy"
+
 
     # - name: Build binary cache
     #   env:
@@ -37,7 +45,6 @@ jobs:
     #     tag: ${{ github.ref }}
     #     overwrite: true
     #     file_glob: true
-
 
     # - name: Cache shell.nix deps
     #   run: nix-shell --run 'nix-store -qR --include-outputs $(nix-instantiate shell.nix) | cachix push $CACHIX_CACHE_NAME'

@@ -56,9 +56,7 @@ let
     '';
 
     tf-required_providers = writeShellScriptBin "tf-required_providers" ''
-      # FIXME: remove the mkdir, after deploy folder is added
-      mkdir -p ./deploy
-      cat > ./deploy/terraform-providers.json<<EOS
+      cat > ../terraform-providers.json<<EOS
       ${toJSON terraform_plugins}
       EOS
     '';
@@ -73,7 +71,8 @@ let
     '';
 
     tf-destroy = writeShellScriptBin "tf-destroy" ''
-      terraform destroy
+      terraform init &> /dev/null
+      terraform destroy -input=false -auto-approve
     '';
   };
 

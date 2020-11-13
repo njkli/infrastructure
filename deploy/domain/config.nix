@@ -7,14 +7,14 @@ let
   dom = getEnv "DEPLOY_DOMAIN";
   domID_tf = replaceStrings [ "." ] [ "_" ] dom;
 
-  required_providers = fromJSON (readFile ../terraform-providers.json);
+  required_providers = (fromJSON (readFile ../terraform-providers.json)).terraform;
   terraform = {
     backend.artifactory.username = getEnv "ARTIFACTORY_UNAME";
     backend.artifactory.password = getEnv "ARTIFACTORY_PASSWD";
     backend.artifactory.url = getEnv "ARTIFACTORY_URL";
     backend.artifactory.repo = "tfstate";
     backend.artifactory.subpath = "domain-${dom}";
-  } // required_providers.terraform;
+  } // required_providers;
 
   provider.vultr.api_key = getEnv "VULTR_API_KEY";
   provider.vultr.rate_limit = 3000; # NOTE: ms between requests!
