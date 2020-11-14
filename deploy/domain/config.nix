@@ -53,10 +53,11 @@ in
     ];
   };
 
+  # FIXME: Error finding DNS record: <nil> on first run.
   # Github pages:
   resource.vultr_dns_record = {
     gh-pages-1 = {
-      domain = "${dom}";
+      domain = "\${ vultr_dns_domain.${domID_tf}.id }";
       name = "@";
       data = "185.199.108.153";
       type = "A";
@@ -64,7 +65,7 @@ in
     };
 
     gh-pages-2 = {
-      domain = "${dom}";
+      domain = "\${ vultr_dns_domain.${domID_tf}.id }";
       name = "@";
       data = "185.199.109.153";
       type = "A";
@@ -72,7 +73,7 @@ in
     };
 
     gh-pages-3 = {
-      domain = "${dom}";
+      domain = "\${ vultr_dns_domain.${domID_tf}.id }";
       name = "@";
       data = "185.199.110.153";
       type = "A";
@@ -80,7 +81,7 @@ in
     };
 
     gh-pages-4 = {
-      domain = "${dom}";
+      domain = "\${ vultr_dns_domain.${domID_tf}.id }";
       name = "@";
       data = "185.199.111.153";
       type = "A";
@@ -88,7 +89,7 @@ in
     };
 
     gh-pages-cname = {
-      domain = "${dom}";
+      domain = "\${ vultr_dns_domain.${domID_tf}.id }";
       name = "www";
       data = "njkli.github.io";
       type = "CNAME";
