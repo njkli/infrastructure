@@ -17,7 +17,7 @@ let
   } // required_providers;
 
   provider.vultr.api_key = getEnv "VULTR_API_KEY";
-  provider.vultr.rate_limit = 3000; # ms between requests!
+  provider.vultr.rate_limit = 3000; # ms between requests.
   provider.vultr.retry_limit = 5;
 
 in
