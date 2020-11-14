@@ -25,14 +25,12 @@ jobs:
         name: njk
         signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
 
-    # - name: Show nixpkgs version
-    #   run: nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'
-
-    - name: Cache ci pkgs
-      run: nix-build
+    # - name: Cache ci pkgs
+    #   run: nix-build
 
     - name: Cache nix store with cachix
       run: nix-shell --run 'nix-store -qR --include-outputs $(nix-instantiate shell.nix) | cachix push njk'
+    # TODO: https://github.com/marketplace/actions/cache-install-nix-packages
 
     # - name: Cache nixstore with github
     #   uses: actions/cache@v2
@@ -64,7 +62,7 @@ jobs:
       with:
         status: ${{ job.status }}
         title: 'Repo. Activity Notification'
-        message: 'Hello World!'
+        message: Deployed ${{ job.name }}
 
     # - name: Build binary cache
     #   env:

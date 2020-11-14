@@ -52,4 +52,48 @@ in
       }
     ];
   };
+
+  # Github pages:
+  resource.vultr_dns_record = {
+    gh-pages-1 = {
+      domain = "${dom}";
+      name = "@";
+      data = "185.199.108.153";
+      type = "A";
+      ttl = 120;
+    };
+
+    gh-pages-2 = {
+      domain = "${dom}";
+      name = "@";
+      data = "185.199.109.153";
+      type = "A";
+      ttl = 120;
+    };
+
+    gh-pages-3 = {
+      domain = "${dom}";
+      name = "@";
+      data = "185.199.110.153";
+      type = "A";
+      ttl = 120;
+    };
+
+    gh-pages-4 = {
+      domain = "${dom}";
+      name = "@";
+      data = "185.199.111.153";
+      type = "A";
+      ttl = 120;
+    };
+
+    gh-pages-cname = {
+      domain = "${dom}";
+      name = "www";
+      data = "njkli.github.io";
+      type = "CNAME";
+      ttl = 120;
+    };
+  };
+
 }
