@@ -1,5 +1,5 @@
 { lib, ... }:
-# pkgs, config,
+# nix linter is strict: pkgs, config,
 let
   inherit (lib) replaceStrings head splitString nameValuePair;
   inherit (builtins) readFile fromJSON getEnv;

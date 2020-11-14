@@ -28,11 +28,11 @@ jobs:
     # - name: Show nixpkgs version
     #   run: nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'
 
-    - name: Cache nix store with cachix
+    - name: Cache ci pkgs
       run: nix-build
 
-    # - name: Cache nix store with cachix
-    #   run: nix-shell --run 'nix-store -qR --include-outputs $(nix-instantiate shell.nix) | cachix push'
+    - name: Cache nix store with cachix
+      run: nix-shell --run 'nix-store -qR --include-outputs $(nix-instantiate shell.nix) | cachix push'
 
     # - name: Cache nixstore with github
     #   uses: actions/cache@v2
