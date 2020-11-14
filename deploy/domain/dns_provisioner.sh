@@ -98,7 +98,6 @@ _NDC_dnssec_delete() {
     done
 }
 
-
 # Command line processing
 if [[ $# -gt 2 ]] || [[ $# -eq 0 ]];then
     echo "Either 0 or more than 2 input arguments provided which is not supported"

@@ -1,10 +1,11 @@
 # {{secrets.GITHUB_TOKEN}} to auth for pkg publishing
 name: "Domain - deploy"
+
 on:
-  # pull_request:
   push:
    paths:
-    - "deploy/**/*.nix"
+    - "deploy/domain/*.nix"
+    # - "deploy/**/*.nix"
 
 jobs:
   deployment:
@@ -22,18 +23,30 @@ jobs:
     - uses: cachix/cachix-action@v8
       with:
         name: njk
-        signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
-    - name: Show nixpkgs version
-      run: nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'
-    - name: Cache nix store with github
-      run: nix-shell --run 'nix-store -qR --include-outputs $(nix-instantiate shell.nix)'
+        signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
+
+    # - name: Show nixpkgs version
+    #   run: nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'
+
+    - name: Cache nix store with cachix
+      run: nix-build
+
+    # - name: Cache nix store with cachix
+    #   run: nix-shell --run 'nix-store -qR --include-outputs $(nix-instantiate shell.nix) | cachix push'
+
+    # - name: Cache nixstore with github
+    #   uses: actions/cache@v2
+    #   with:
+    #     path: |
+    #       /nix
+    #     key: ${{ runner.os }}-${{ hashFiles('nix/*.*') }}
+
     - name: Deploy domain
       env:
         CACHE_SIGNING_KEY: ${{ secrets.CACHE_SIGNING_KEY }}
         ARTIFACTORY_PASSWD: ${{ secrets.ARTIFACTORY_PASSWD }}
         ARTIFACTORY_UNAME: ${{ secrets.ARTIFACTORY_UNAME }}
         ARTIFACTORY_URL: ${{ secrets.ARTIFACTORY_URL }}
-        CACHIX_SIGNING_KEY: ${{ secrets.CACHIX_SIGNING_KEY }}
         DEPLOY_DOMAIN: ${{ secrets.DEPLOY_DOMAIN }}
         NAMEDOTCOM_API_KEY: ${{ secrets.NAMEDOTCOM_API_KEY }}
         NAMEDOTCOM_API_SECRET: ${{ secrets.NAMEDOTCOM_API_SECRET }}

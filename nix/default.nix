@@ -36,6 +36,11 @@ let
     # PASSWORD_STORE_TOMB_FILE=<tomb_path> PASSWORD_STORE_TOMB_KEY=<key_path> PASSWORD_STORE_DIR=<dir_path> pass close
     # PASSWORD_STORE_DIR=$PWD/secrets
 
+    what_to_deploy = writeShellScriptBin "what_to_deploy" ''
+      git log --name-only -n 1 --format=""
+    '';
+
+
     # FIXME: Should really switch to github caching of /nix dir or use cachix properly here
     binary-cache-build = writeShellScriptBin "binary-cache-build" ''
       BINCACHEDIR="''${PWD}/bincache"
