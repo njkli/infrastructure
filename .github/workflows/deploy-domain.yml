@@ -55,6 +55,14 @@ jobs:
         VULTR_API_KEY: ${{ secrets.VULTR_API_KEY }}
       run: nix-shell --run "cd deploy/domain && tf-deploy"
 
+    - name: Push Build Status Notifications
+      if: ${{ always() }}
+      uses: desiderati/github-action-pushover@v1
+      with:
+        job-status: ${{ job.status }}
+        pushover-api-token: ${{ secrets.PUSHOVER_API_TOKEN }}
+        pushover-user-key: ${{ secrets.PUSHOVER_USER_KEY }}
+
     # - name: Build binary cache
     #   env:
     #     CACHE_SIGNING_KEY: '${{ secrets.CACHE_SIGNING_KEY }}'
