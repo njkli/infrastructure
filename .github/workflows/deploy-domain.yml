@@ -57,14 +57,6 @@ jobs:
 
     - name: Push Build Status Notifications
       if: ${{ always() }}
-      uses: desiderati/github-action-pushover@v1
-      with:
-        job-status: ${{ job.status }}
-        pushover-api-token: ${{ secrets.PUSHOVER_API_TOKEN }}
-        pushover-user-key: ${{ secrets.PUSHOVER_USER_KEY }}
-
-    - name: pushover-actions
-      if: ${{ always() }}
       uses: umahmood/pushover-actions@v1.0.0
       env:
         PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_API_TOKEN }}
