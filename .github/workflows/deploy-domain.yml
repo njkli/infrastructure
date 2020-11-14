@@ -65,7 +65,7 @@ jobs:
 
     - name: pushover-actions
       if: ${{ always() }}
-      uses: umahmood/pushover-actions@master
+      uses: umahmood/pushover-actions@v1.0.0
       env:
         PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_API_TOKEN }}
         PUSHOVER_USER: ${{ secrets.PUSHOVER_USER_KEY }}
