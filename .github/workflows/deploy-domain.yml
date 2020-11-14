@@ -32,7 +32,7 @@ jobs:
       run: nix-build
 
     - name: Cache nix store with cachix
-      run: nix-shell --run 'nix-store -qR --include-outputs $(nix-instantiate shell.nix) | cachix push'
+      run: nix-shell --run 'nix-store -qR --include-outputs $(nix-instantiate shell.nix) | cachix push njk'
 
     # - name: Cache nixstore with github
     #   uses: actions/cache@v2
