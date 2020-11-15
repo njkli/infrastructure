@@ -13,6 +13,7 @@ let
 
   custom_vultr_fork = pkgs.terraform-providers.vultr.overrideAttrs (_: {
     src = fetchFromGitHub {
+      branchName = "dnssec";
       rev = "df735bc6d530a69eccabc820dd759bfeeb840da0";
       repo = "terraform-provider-vultr";
       owner = "CptKirk";
