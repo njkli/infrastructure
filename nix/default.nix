@@ -1,7 +1,7 @@
 { sources ? import ./sources.nix }:
 let
   pkgs = import sources.nixpkgs { };
-  inherit (pkgs) callPackage writeShellScriptBin;
+  inherit (pkgs) callPackage writeShellScriptBin fetchFromGitHub;
   inherit (pkgs.lib) getAttrs mapAttrs;
   inherit (builtins) toJSON fromJSON;
 
@@ -11,11 +11,23 @@ let
 
   terranix_release = callPackage sources.terranix { };
 
+  custom_vultr_fork = pkgs.terraform-providers.vultr.overrideAttrs (_: {
+    src = fetchFromGitHub {
+      rev = "df735bc6d530a69eccabc820dd759bfeeb840da0";
+      repo = "terraform-provider-vultr";
+      owner = "CptKirk";
+      sha256 = "04qy366ignn53bbdj9s3032qr1x7h84q36qzl5ywydlw2va0qbsd";
+    };
+    repo = "terraform-provider-vultr";
+    owner = "CptKirk";
+    sha256 = "04qy366ignn53bbdj9s3032qr1x7h84q36qzl5ywydlw2va0qbsd";
+  });
+
   # NOTE: Set those before using, TF 0.13
-  terraform_providers = [ "null" "helm" "vultr" "digitalocean" "kubernetes" "github" ];
+  terraform_providers = [ "null" "helm" "digitalocean" "kubernetes" "github" ]; # "vultr" ##
   terraform_plugins =
     let
-      providers = (getAttrs terraform_providers pkgs.terraform-providers);
+      providers = (getAttrs terraform_providers pkgs.terraform-providers) // { vultr = custom_vultr_fork; };
       required_providers = mapAttrs
         (name: plugin: {
           version = plugin.version;
@@ -107,7 +119,7 @@ in
       kubectl
       fluxctl
       kubernetes-helm;
-    terraform = pkgs.terraform_0_13.withPlugins (p: (map (x: p."${x}") terraform_providers));
+    terraform = pkgs.terraform_0_13.withPlugins (p: ((map (x: p."${x}") terraform_providers) ++ [ custom_vultr_fork ]));
     # ruby = pkgs.ruby.withPackages (p: [ p.rbnacl ]);
   } // scripts;
 
