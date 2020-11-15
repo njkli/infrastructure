@@ -2,19 +2,10 @@
 ### strict nix linter: pkgs, config,
 let
   inherit (lib) replaceStrings head splitString nameValuePair;
-  inherit (builtins) readFile fromJSON getEnv;
+  inherit (builtins) getEnv;
 
   dom = getEnv "DEPLOY_DOMAIN";
   domID_tf = replaceStrings [ "." ] [ "_" ] dom;
-
-  required_providers = (fromJSON (readFile ../terraform-providers.json)).terraform;
-  terraform = {
-    backend.artifactory.username = getEnv "ARTIFACTORY_UNAME";
-    backend.artifactory.password = getEnv "ARTIFACTORY_PASSWD";
-    backend.artifactory.url = getEnv "ARTIFACTORY_URL";
-    backend.artifactory.repo = "tfstate";
-    backend.artifactory.subpath = "domain-${dom}";
-  } // required_providers;
 
   provider.vultr.api_key = getEnv "VULTR_API_KEY";
   provider.vultr.rate_limit = 3000; # 3 sec.
@@ -22,9 +13,11 @@ let
 
 in
 {
-  inherit
-    terraform
-    provider;
+  inherit provider;
+  imports = [ ../../nix/terranix ];
+
+  tf.backends.artifactory.enable = true;
+  tf.backends.artifactory.subpath = "domain-${dom}";
 
   # TODO: make vultr_dns module
   # NOTE: https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/data_source

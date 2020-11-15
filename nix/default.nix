@@ -11,24 +11,25 @@ let
 
   terranix_release = callPackage sources.terranix { };
 
-  custom_vultr_fork = pkgs.terraform-providers.vultr.overrideAttrs (_: {
-    src = fetchFromGitHub {
-      #  branch = "dnssec";
-      rev = "df735bc6d530a69eccabc820dd759bfeeb840da0";
-      repo = "terraform-provider-vultr";
-      owner = "CptKirk";
-      sha256 = "04qy366ignn53bbdj9s3032qr1x7h84q36qzl5ywydlw2va0qbsd";
-    };
-    repo = "terraform-provider-vultr";
-    owner = "CptKirk";
-    sha256 = "04qy366ignn53bbdj9s3032qr1x7h84q36qzl5ywydlw2va0qbsd";
-  });
+  # TODO: CptKirk/terraform-provider-vultr as an overlay!
+  # custom_vultr_fork = pkgs.terraform-providers.vultr.overrideAttrs (_: {
+  #   src = fetchFromGitHub {
+  #     #  branch = "dnssec";
+  #     rev = "df735bc6d530a69eccabc820dd759bfeeb840da0";
+  #     repo = "terraform-provider-vultr";
+  #     owner = "CptKirk";
+  #     sha256 = "04qy366ignn53bbdj9s3032qr1x7h84q36qzl5ywydlw2va0qbsd";
+  #   };
+  #   repo = "terraform-provider-vultr";
+  #   owner = "CptKirk";
+  #   sha256 = "04qy366ignn53bbdj9s3032qr1x7h84q36qzl5ywydlw2va0qbsd";
+  # });
 
   # NOTE: Set those before using, TF 0.13
-  terraform_providers = [ "null" "helm" "digitalocean" "kubernetes" "github" ]; # "vultr" ##
+  terraform_providers = [ "null" "helm" "vultr" "digitalocean" "kubernetes" "github" ];
   terraform_plugins =
     let
-      providers = (getAttrs terraform_providers pkgs.terraform-providers) // { vultr = custom_vultr_fork; };
+      providers = getAttrs terraform_providers pkgs.terraform-providers;
       required_providers = mapAttrs
         (name: plugin: {
           version = plugin.version;
@@ -44,7 +45,7 @@ let
         eval "$(nix-instantiate --eval /persist/etc/nixos/systems/credentials.nix --attr njk.credentials.export_shell --json | jq -r)" || true
     '';
 
-    # nix-instantiate --eval /persist/etc/nixos/systems/credentials.nix --attr cachix.njk.publicKey --json | jq -r
+    # TODO: integrate passwd_tomb
     # PASSWORD_STORE_TOMB_FILE=<tomb_path> PASSWORD_STORE_TOMB_KEY=<key_path> PASSWORD_STORE_DIR=<dir_path> pass open
     # PASSWORD_STORE_TOMB_FILE=<tomb_path> PASSWORD_STORE_TOMB_KEY=<key_path> PASSWORD_STORE_DIR=<dir_path> pass close
     # PASSWORD_STORE_DIR=$PWD/secrets
@@ -120,7 +121,7 @@ in
       kubectl
       fluxctl
       kubernetes-helm;
-    terraform = pkgs.terraform_0_13.withPlugins (p: ((map (x: p."${x}") terraform_providers) ++ [ custom_vultr_fork ]));
+    terraform = pkgs.terraform_0_13.withPlugins (p: (map (x: p."${x}") terraform_providers));
     # ruby = pkgs.ruby.withPackages (p: [ p.rbnacl ]);
   } // scripts;
 
