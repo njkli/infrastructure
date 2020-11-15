@@ -29,7 +29,8 @@ jobs:
     #   run: nix-build
 
     - name: Cache nix store with cachix
-      run: nix-shell --run 'nix-store -qR --include-outputs $(nix-instantiate shell.nix) | cachix push njk'
+      # run: nix-shell --run 'nix-store -qR --include-outputs $(nix-instantiate shell.nix) | cachix push njk'
+      run: nix-store --query --references $(nix-instantiate shell.nix) | xargs nix-store --realise | xargs nix-store --query --requisites | cachix push njk
     # TODO: https://github.com/marketplace/actions/cache-install-nix-packages
 
     # - name: Cache nixstore with github
