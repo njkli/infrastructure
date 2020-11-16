@@ -6,7 +6,7 @@ let
 in
 {
   # TODO: lib functions
-  # options.tf-common = {
+  # options.tf.common = {
   #   lib = mkOption {
   #     type = attrs;
   #     default = import ../../lib;
