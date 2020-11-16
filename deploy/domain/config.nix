@@ -3,7 +3,6 @@
 let
   inherit (lib) replaceStrings head splitString nameValuePair;
   inherit (builtins) getEnv;
-
   dom = getEnv "DEPLOY_DOMAIN";
 in
 {
@@ -24,5 +23,5 @@ in
     { name = "www"; data = "njkli.github.io"; type = "CNAME"; }
   ];
 
-  # output.domain_id = { value = "\${ vultr_dns_domain.prv_rocks.id }"; };
+  # output.domain_id = { value = "\${ vultr_dns_domain.${dom}.id }"; };
 }

@@ -11,7 +11,7 @@ let
 
   provisioner_script = writeShellScript "vultr_dns_provisioner" (readFile ../scripts/vultr_dns_provisioner.sh);
   domID_tf = replaceStrings [ "." ] [ "_" ];
-  recID_tf = _: domain: "_" + hashString "sha256" (concatMapStringsSep "|" (toString) (attrValues (_ // { inherit domain; })));
+  recID_tf = _: domain: "_" + hashString "sha256" (concatMapStringsSep "|" toString (attrValues (_ // { inherit domain; })));
 
   provisioner = dom: [
     {
@@ -99,9 +99,3 @@ in
     })
   ];
 }
-/*
-
-Possible η-reduction of argument `d` at nix/terranix/modules/vultr-dns.nix:13:14-49
-Possible η-reduction of argument `v` at nix/terranix/modules/vultr-dns.nix:14:77-90
-
-*/
