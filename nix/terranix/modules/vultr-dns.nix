@@ -4,8 +4,8 @@ let
   inherit (lib)
     mkMerge mkIf types
     mkOption mkEnableOption
-    replaceStrings
-    mapAttrs' nameValuePair concatMapStringsSep attrValues attrNames flatten listToAttrs;
+    replaceStrings concatMapStringsSep
+    mapAttrs' nameValuePair attrValues attrNames flatten listToAttrs;
   inherit (pkgs) writeShellScript;
   inherit (builtins) readFile hashString toString;
 
@@ -37,22 +37,21 @@ let
   record_opts = with types; { ... }: {
     options = {
       ttl = mkOption {
-        description = "Record ttl";
+        description = "ttl";
         default = 120;
         type = int;
       };
       type = mkOption {
-        description = "Record type";
-        # NOTE: those are the only record types supported by vultr :(
+        description = "type";
         type = enum [ "A" "AAAA" "CNAME" "NS" "MX" "SRV" "TXT" "CAA" "SSHFP" ];
       };
       name = mkOption {
         default = "";
-        description = "Record name";
+        description = "name";
         type = str;
       };
       data = mkOption {
-        description = "Record data";
+        description = "data";
         type = str;
       };
     };

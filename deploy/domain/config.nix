@@ -1,4 +1,5 @@
 { lib, ... }:
+
 # strict nix linter: pkgs, config,
 let
   inherit (lib) replaceStrings head splitString nameValuePair;

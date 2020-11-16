@@ -139,8 +139,6 @@ in
         "^nix/sources\.nix$"
         "^\.pre\-commit\-config\.yaml$"
         "^result$"
-        "deploy/domain/config.nix"
-        "^deploy/domain/config.nix$"
       ];
     };
   };
