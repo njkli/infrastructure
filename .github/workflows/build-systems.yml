@@ -1,5 +1,5 @@
 # {{secrets.GITHUB_TOKEN}} to auth for pkg publishing
-name: "Flake build systems"
+name: "build Flake systems"
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
    #  - master
 
 jobs:
-  build:
+  build_and_cache_systems:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.3.4
@@ -29,7 +29,9 @@ jobs:
     - name: Cache flake outputs
       env:
         DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
-      run: nix build --help && ./deploy/systems/build-flakes.sh
+        PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_API_TOKEN }}
+        PUSHOVER_USER: ${{ secrets.PUSHOVER_USER_KEY }}
+      run: ./deploy/systems/build-flakes.sh
 
     - name: Push Build Status Notifications
       if: ${{ always() }}
@@ -41,5 +43,3 @@ jobs:
         status: ${{ job.status }}
         title: 'Repo. Activity Notification'
         message: Built ${{ job.name }}
-
-        # git clone git@github.com:njkli/systems.git --config core.sshCommand="ssh -i /tmp/ssh_buildfarm"
