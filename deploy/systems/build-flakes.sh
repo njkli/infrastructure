@@ -1,9 +1,5 @@
 #! /usr/bin/env nix-shell
 #! nix-shell -i bash -p git jq findutils bash
-mkdir -p $HOME/.ssh
-echo $DEPLOYMENT_KEY > $HOME/.ssh/id_rsa
-echo 'StrictHostKeyChecking no' > $HOME/.ssh/config
-chmod 0600 $HOME/.ssh/id_rsa
 
 git clone git@github.com:njkli/systems.git
 cd systems
