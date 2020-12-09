@@ -3,8 +3,10 @@
 
 echo ${GITHUB_TOKEN}
 echo '**********'
+env
+echo '**********'
 
-git clone https://.:${GITHUB_TOKEN}@github.com/njkli/systems
+git clone https://.:${GITHUB_TOKEN}@github.com/njkli/systems.git
 cd systems
 
 for system in $(nix eval .#nixosConfigurations --apply builtins.attrNames --json | jq -r 'join("\n")')
