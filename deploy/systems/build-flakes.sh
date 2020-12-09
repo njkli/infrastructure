@@ -1,7 +1,10 @@
 #! /usr/bin/env nix-shell
 #! nix-shell -i bash -p git jq findutils bash
 
-git clone https://.:${GITHUB_TOKEN}@github.com/njkli/systems.git
+echo ${GITHUB_TOKEN}
+echo '**********'
+
+git clone https://.:${GITHUB_TOKEN}@github.com/njkli/systems
 cd systems
 
 for system in $(nix eval .#nixosConfigurations --apply builtins.attrNames --json | jq -r 'join("\n")')
