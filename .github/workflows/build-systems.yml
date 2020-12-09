@@ -3,10 +3,10 @@ name: "Flake build systems"
 
 on:
   push:
-   branches:
-    - master
-  paths:
+   paths:
     - 'deploy/systems/**/*'
+   # branches:
+   #  - master
 
 jobs:
   build:
