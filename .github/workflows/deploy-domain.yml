@@ -17,8 +17,8 @@ jobs:
         install_url: https://github.com/numtide/nix-flakes-installer/releases/download/nix-2.4pre20200618_377345e/install
         nix_path: nixpkgs=channel:nixos-20.09
         extra_nix_config: |
-                experimental-features = nix-command
-                binary-caches-parallel-connections = 10
+                experimental-features = nix-command flakes
+                binary-caches-parallel-connections = 30
                 connect-timeout = 5
     - uses: cachix/cachix-action@v8
       with:
@@ -30,6 +30,7 @@ jobs:
 
     - name: Cache nix store with cachix
       # run: nix-shell --run 'nix-store -qR --include-outputs $(nix-instantiate shell.nix) | cachix push njk'
+      # nix-store --query --references $(nix build /mnt/config#nixosConfigurations.folfanga.config.system.build.toplevel --verbose --json|jq -r 'map(.drvPath) | join("\n")') | xargs nix-store --realise | xargs nix-store --query --requisites
       run: nix-store --query --references $(nix-instantiate shell.nix) | xargs nix-store --realise | xargs nix-store --query --requisites | cachix push njk
     # TODO: https://github.com/marketplace/actions/cache-install-nix-packages
 

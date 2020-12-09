@@ -1,0 +1,45 @@
+# {{secrets.GITHUB_TOKEN}} to auth for pkg publishing
+name: "Flake build systems"
+
+on:
+  push:
+   branches:
+    - master
+  paths:
+    - 'deploy/systems/**/*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.3.4
+    - uses: cachix/install-nix-action@v12
+      with:
+        install_url: https://github.com/numtide/nix-flakes-installer/releases/download/nix-2.4pre20200618_377345e/install
+        nix_path: nixpkgs=channel:nixos-20.09
+        extra_nix_config: |
+                experimental-features = nix-command flakes
+                binary-caches-parallel-connections = 30
+                connect-timeout = 5
+    - uses: cachix/cachix-action@v8
+      with:
+        name: njk
+        signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
+
+    - name: Cache flake outputs
+      env:
+        DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
+      run: ./deploy/systems/build-flakes.sh
+
+    - name: Push Build Status Notifications
+      if: ${{ always() }}
+      uses: umahmood/pushover-actions@v1.0.0
+      env:
+        PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_API_TOKEN }}
+        PUSHOVER_USER: ${{ secrets.PUSHOVER_USER_KEY }}
+      with:
+        status: ${{ job.status }}
+        title: 'Repo. Activity Notification'
+        message: Built ${{ job.name }}
+
+        # git clone git@github.com:njkli/systems.git --config core.sshCommand="ssh -i /tmp/ssh_buildfarm"
