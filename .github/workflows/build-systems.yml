@@ -28,7 +28,7 @@ jobs:
 
     - name: Cache flake outputs
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
       run: ./deploy/systems/build-flakes.sh
 
     - name: Push Build Status Notifications
