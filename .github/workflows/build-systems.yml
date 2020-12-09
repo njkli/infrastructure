@@ -29,7 +29,7 @@ jobs:
     - name: Cache flake outputs
       env:
         DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
-      run: ./deploy/systems/build-flakes.sh
+      run: nix build --help && ./deploy/systems/build-flakes.sh
 
     - name: Push Build Status Notifications
       if: ${{ always() }}
