@@ -1,6 +1,5 @@
 #! /usr/bin/env nix-shell
 #! nix-shell -i bash -p git jq findutils bash
-
 mkdir -p $HOME/.ssh
 echo $DEPLOYMENT_KEY > $HOME/.ssh/id_rsa
 echo 'StrictHostKeyChecking no' > $HOME/.ssh/config
