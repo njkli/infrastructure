@@ -2,14 +2,14 @@ name: "build Flake systems"
 
 on:
   schedule:
-    # every 8 hours.
+    # https://crontab.guru
     - cron: '0 */8 * * *'
   push:
    paths:
     - 'deploy/systems/**/*'
 
 jobs:
-  build_and_cache_systems:
+  build_systems:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.3.4
@@ -42,4 +42,4 @@ jobs:
       with:
         status: ${{ job.status }}
         title: 'Repo. Activity Notification'
-        message: Built ${{ job.name }}
+        message: Finished ${{ job.name }}
