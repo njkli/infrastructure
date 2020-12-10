@@ -1,12 +1,12 @@
-# {{secrets.GITHUB_TOKEN}} to auth for pkg publishing
 name: "build Flake systems"
 
 on:
+  schedule:
+    # every 8 hours.
+    - cron: '0 */8 * * *'
   push:
    paths:
     - 'deploy/systems/**/*'
-   # branches:
-   #  - master
 
 jobs:
   build_and_cache_systems:

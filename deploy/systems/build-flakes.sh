@@ -20,7 +20,7 @@ do
         | xargs nix-store --query --requisites \
         | cachix push njk
     echo "****************************** Cleaning nix-store: ${system} ******************************"
-    sudo nix-collect-garbage -d
+    # sudo nix-collect-garbage -d
     nix-collect-garbage -d
     echo "****************************** Done: ${system} ******************************"
     _msg "Done with ${system}"
