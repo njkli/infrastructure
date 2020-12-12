@@ -5,8 +5,9 @@ project.pkgs.mkShell {
   shellHook = ''
     ${project.ci.pre-commit-check.shellHook}
   '';
+
   lorriHook = ''
     [[ -r /persist/etc/nixos/systems/credentials.nix ]] && \
-        eval "$(nix-instantiate --eval /persist/etc/nixos/systems/credentials.nix --attr njk.credentials.export_shell --json | jq -r)" || true
+        eval "$(nix eval --impure --expr '(import /mnt/config/secrets/credentials.nix).njk.credentials.export_shell' --json | jq -r)" || true
   '';
 }

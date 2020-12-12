@@ -55,7 +55,6 @@ let
       cat > ../terraform-providers.json<<EOS
       ${toJSON tf.terraform_plugins_json}
       EOS
-
     '';
 
     tf-deploy = writeShellScriptBin "tf-deploy" ''

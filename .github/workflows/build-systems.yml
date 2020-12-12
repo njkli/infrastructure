@@ -4,9 +4,9 @@ on:
   schedule:
     # https://crontab.guru
     - cron: '0 */8 * * *'
-  push:
-   paths:
-    - 'deploy/systems/**/*'
+  # push:
+  #  paths:
+  #   - 'deploy/systems/**/*'
 
 jobs:
   build_systems:
