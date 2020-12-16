@@ -4,3 +4,4 @@
 /deploy/**/*.tf.json
 /deploy/**/*.log
 /deploy/terraform-providers.json
+/nix/terraform/providers.json
