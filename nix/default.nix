@@ -10,39 +10,12 @@ let
   src = gitignoreSource ./..;
 
   terranix_release = callPackage sources.terranix { };
-
-  # TODO: CptKirk/terraform-provider-vultr as an overlay!
-  # custom_vultr_fork = pkgs.terraform-providers.vultr.overrideAttrs (_: {
-  #   src = fetchFromGitHub {
-  #     #  branch = "dnssec";
-  #     rev = "df735bc6d530a69eccabc820dd759bfeeb840da0";
-  #     repo = "terraform-provider-vultr";
-  #     owner = "CptKirk";
-  #     sha256 = "04qy366ignn53bbdj9s3032qr1x7h84q36qzl5ywydlw2va0qbsd";
-  #   };
-  #   repo = "terraform-provider-vultr";
-  #   owner = "CptKirk";
-  #   sha256 = "04qy366ignn53bbdj9s3032qr1x7h84q36qzl5ywydlw2va0qbsd";
-  # });
-
-  # NOTE: Set those before using, TF 0.13
-  terraform_providers = [ "null" "helm" "vultr" "digitalocean" "kubernetes" "github" ];
-  terraform_plugins =
-    let
-      providers = getAttrs terraform_providers pkgs.terraform-providers;
-      required_providers = mapAttrs
-        (name: plugin: {
-          version = plugin.version;
-          source = plugin.provider-source-address or "nixpkgs/${name}";
-        })
-        providers;
-    in
-    { terraform = { inherit required_providers; }; };
+  tf = import ./terraform { inherit pkgs; };
 
   scripts = {
     localDevCredentials = writeShellScriptBin "localDevCredentials" ''
-      [[ -r /persist/etc/nixos/systems/credentials.nix ]] && \
-        eval "$(nix-instantiate --eval /persist/etc/nixos/systems/credentials.nix --attr njk.credentials.export_shell --json | jq -r)" || true
+      [[ -r /persist/etc/nixos/systems/secrets/credentials.nix ]] && \
+        eval "$(nix-instantiate --eval /persist/etc/nixos/systems/secrets/credentials.nix --attr njk.credentials.export_shell --json | jq -r)" || true
     '';
 
     # TODO: integrate passwd_tomb
@@ -75,12 +48,12 @@ let
     '';
 
     github-actions-secrets-yaml = writeShellScriptBin "github-actions-secrets-yaml" ''
-      nix-instantiate --eval  /persist/etc/nixos/systems/credentials.nix --attr njk.credentials.export_actions --json | remarshal --if json --of yaml
+      nix-instantiate --eval  /persist/etc/nixos/systems/secrets/credentials.nix --attr njk.credentials.export_actions --json | remarshal --if json --of yaml
     '';
 
     tf-required_providers = writeShellScriptBin "tf-required_providers" ''
       cat > ../terraform-providers.json<<EOS
-      ${toJSON terraform_plugins}
+      ${toJSON tf.terraform_plugins_json}
       EOS
     '';
 
@@ -121,7 +94,8 @@ in
       kubectl
       fluxctl
       kubernetes-helm;
-    terraform = pkgs.terraform_0_13.withPlugins (p: (map (x: p."${x}") terraform_providers));
+    # terraform = pkgs.terraform_0_13.withPlugins (p: (map (x: p."${x}") terraform_providers));
+    terraform = tf.terraform_with_plugins;
     # ruby = pkgs.ruby.withPackages (p: [ p.rbnacl ]);
   } // scripts;
 
@@ -132,8 +106,9 @@ in
       hooks = {
         shellcheck.enable = true;
         nixpkgs-fmt.enable = true;
-        nix-linter.enable = true;
+        nix-linter.enable = false; # FIXME: re-enable nix-linter
       };
+
       # generated files
       excludes = [
         "^nix/sources\.nix$"
