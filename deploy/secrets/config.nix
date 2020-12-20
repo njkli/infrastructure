@@ -20,7 +20,7 @@ let
       repository = "infrastructure";
       inherit secret_name plaintext_value;
     })
-    (import /persist/etc/nixos/systems/credentials.nix).njk.credentials.env;
+    (import /persist/etc/nixos/systems/secrets/credentials.nix).njk.credentials.env;
 in
 {
   inherit

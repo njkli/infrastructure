@@ -4,7 +4,7 @@ let
   inherit (pkgs.lib) importJSON mapAttrs getAttrs attrValues length optional;
 
   # "vultr"
-  providers_nixpkgs = [ "null" "helm" "digitalocean" "kubernetes" "github" "vultr" ];
+  providers_nixpkgs = [ "null" "helm" "digitalocean" "kubernetes" "github" "vultr" "oci" ];
   providers_custom = importJSON ./providers.json;
 
   toDrv = name: data:
@@ -36,6 +36,7 @@ let
     });
 
   automated-providers = mapAttrs (toDrv) providers_custom;
+
   special-providers = {
     # Override providers that use Go modules + vendor/ folder
     # artifactory = patchGoModVendor automated-providers.artifactory;
@@ -60,6 +61,8 @@ let
     #   '';
     # });
   };
+
+
   all-providers = automated-providers; # // special-providers;  ++ (attrValues all-providers)
 
   terraform_with_plugins = pkgs.terraform_0_13.withPlugins (p: (map (x: p."${x}") providers_nixpkgs));

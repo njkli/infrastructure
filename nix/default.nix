@@ -14,8 +14,8 @@ let
 
   scripts = {
     localDevCredentials = writeShellScriptBin "localDevCredentials" ''
-      [[ -r /persist/etc/nixos/systems/credentials.nix ]] && \
-        eval "$(nix-instantiate --eval /persist/etc/nixos/systems/credentials.nix --attr njk.credentials.export_shell --json | jq -r)" || true
+      [[ -r /persist/etc/nixos/systems/secrets/credentials.nix ]] && \
+        eval "$(nix-instantiate --eval /persist/etc/nixos/systems/secrets/credentials.nix --attr njk.credentials.export_shell --json | jq -r)" || true
     '';
 
     # TODO: integrate passwd_tomb
@@ -48,7 +48,7 @@ let
     '';
 
     github-actions-secrets-yaml = writeShellScriptBin "github-actions-secrets-yaml" ''
-      nix-instantiate --eval  /persist/etc/nixos/systems/credentials.nix --attr njk.credentials.export_actions --json | remarshal --if json --of yaml
+      nix-instantiate --eval  /persist/etc/nixos/systems/secrets/credentials.nix --attr njk.credentials.export_actions --json | remarshal --if json --of yaml
     '';
 
     tf-required_providers = writeShellScriptBin "tf-required_providers" ''
@@ -106,7 +106,7 @@ in
       hooks = {
         shellcheck.enable = true;
         nixpkgs-fmt.enable = true;
-        nix-linter.enable = true;
+        nix-linter.enable = false; # FIXME: re-enable nix-linter
       };
 
       # generated files
