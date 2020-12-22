@@ -1,30 +1,24 @@
 { lib, ... }:
 let
-  inherit (lib) nameValuePair mapAttrs' toLower;
+  inherit (lib) nameValuePair mapAttrs' toLower last head splitString;
   inherit (builtins) readFile fromJSON getEnv;
 
-  required_providers = (fromJSON (readFile ../terraform-providers.json)).terraform;
-  terraform = {
-    backend.artifactory.username = getEnv "ARTIFACTORY_UNAME";
-    backend.artifactory.password = getEnv "ARTIFACTORY_PASSWD";
-    backend.artifactory.url = getEnv "ARTIFACTORY_URL";
-    backend.artifactory.repo = "tfstate";
-    backend.artifactory.subpath = "secrets-github";
-  } // required_providers;
-
-  provider.github.token = getEnv "GITHUB_TOKEN";
-  provider.github.owner = "njkli";
+  gh_repo = getEnv "GITHUB_REPOSITORY";
+  repository = last (splitString "/" gh_repo);
 
   secrets = mapAttrs'
     (secret_name: plaintext_value: nameValuePair (toLower "gh_actions_secret_${secret_name}") {
-      repository = "infrastructure";
-      inherit secret_name plaintext_value;
+      inherit repository secret_name plaintext_value;
     })
     (import /persist/etc/nixos/systems/secrets/credentials.nix).njk.credentials.env;
 in
 {
-  inherit
-    terraform
-    provider;
+  imports = [ ../../nix/terranix ];
+  tf.backends.s3.enable = true;
+  tf.backends.s3.subpath = "deployments/github-secrets/terraform.tfstate";
+
+  provider.github.token = getEnv "GITHUB_TOKEN";
+  provider.github.owner = head (splitString "/" gh_repo);
+
   resource.github_actions_secret = secrets;
 }

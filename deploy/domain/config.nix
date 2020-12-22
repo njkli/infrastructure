@@ -9,8 +9,8 @@ in
 {
   imports = [ ../../nix/terranix ];
 
-  tf.backends.artifactory.enable = true;
-  tf.backends.artifactory.subpath = "domain-${dom}";
+  tf.backends.s3.enable = true;
+  tf.backends.s3.subpath = "deployments/domain-${dom}";
 
   vultr.enable = true;
   vultr.api_key = getEnv "VULTR_API_KEY";
