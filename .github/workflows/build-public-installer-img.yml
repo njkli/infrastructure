@@ -1,0 +1,52 @@
+name: "build Public installer image"
+
+on:
+  push:
+   paths:
+    - 'deploy/systems/**/*'
+
+jobs:
+  build_systems:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.3.4
+    - uses: cachix/install-nix-action@v12
+      with:
+        install_url: https://github.com/numtide/nix-flakes-installer/releases/download/nix-2.4pre20201221_9fab14a/install
+        nix_path: nixpkgs=channel:nixos-20.09
+        extra_nix_config: |
+                experimental-features = nix-command flakes
+                binary-caches-parallel-connections = 30
+                connect-timeout = 5
+    - uses: cachix/cachix-action@v8
+      with:
+        name: njk
+        signingKey: ${{ secrets.CACHIX_SIGNING_KEY }}
+
+    - name: Cache flake outputs
+      env:
+        DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
+        PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_API_TOKEN }}
+        PUSHOVER_USER: ${{ secrets.PUSHOVER_USER_KEY }}
+      run: mkdir -p bincache && echo 123 > bincache/release-artefact.ipxe
+
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: bincache/**/*
+        release_name: Testing
+        tag: ${{ github.ref }}
+        overwrite: true
+        file_glob: true
+
+    - name: Push Build Status Notifications
+      if: ${{ always() }}
+      uses: umahmood/pushover-actions@v1.0.0
+      env:
+        PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_API_TOKEN }}
+        PUSHOVER_USER: ${{ secrets.PUSHOVER_USER_KEY }}
+      with:
+        status: ${{ job.status }}
+        title: 'Repo. Activity Notification'
+        message: Finished ${{ job.name }}
