@@ -1,8 +1,7 @@
 #+OPTIONS: \n:t
 * njk.li infrastructure
-  [[https://github.com/njkli/infrastructure/workflows/build Flake systems/badge.svg?branch=develop][[Flakes]​]]
 
-  [[https://github.com/njkli/infrastructure/workflows/build%20Flake%20systems/badge.svg?branch=develop][[build Flake systems]​]]
+  [[https://github.com/njkli/infrastructure/workflows/build%20Flake%20systems/badge.svg?branch=develop][https://github.com/njkli/infrastructure/workflows/build%20Flake%20systems/badge.svg?branch=develop​]]
 
   [[https://circleci.com/gh/akirak/emacs.d/tree/master][https://circleci.com/gh/akirak/emacs.d/tree/master.svg?style=svg]]
   [[https://melpa.org/#/org-reverse-datetree][https://melpa.org/packages/org-reverse-datetree-badge.svg]]

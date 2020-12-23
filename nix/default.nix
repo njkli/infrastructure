@@ -18,6 +18,11 @@ let
         eval "$(nix-instantiate --eval /persist/etc/nixos/systems/secrets/credentials.nix --attr njk.credentials.export_shell --json | jq -r)" || true
     '';
 
+    # https://goobar.io/manually-trigger-a-github-actions-workflow/
+    repo_trigger_build = writeShellScriptBin "repo_trigger_build" ''
+      gh api repos/:owner/:repo/dispatches -X POST --raw-field event_type=manual_trigger
+    '';
+
     # TODO: integrate passwd_tomb
     # PASSWORD_STORE_TOMB_FILE=<tomb_path> PASSWORD_STORE_TOMB_KEY=<key_path> PASSWORD_STORE_DIR=<dir_path> pass open
     # PASSWORD_STORE_TOMB_FILE=<tomb_path> PASSWORD_STORE_TOMB_KEY=<key_path> PASSWORD_STORE_DIR=<dir_path> pass close
