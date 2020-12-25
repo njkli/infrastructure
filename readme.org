@@ -1,9 +1,7 @@
 #+OPTIONS: \n:t
+[[https://github.com/njkli/infrastructure/workflows/build%20Flake%20systems/badge.svg?branch=develop]]
 * njk.li infrastructure
-  #+html: <p align="center"><img src="[[https://github.com/njkli/infrastructure/workflows/build%20Flake%20systems/badge.svg?branch=develop][https://github.com/njkli/infrastructure/workflows/build%20Flake%20systems/badge.svg?branch=develop" /></p>
-
-  [[https://github.com/njkli/infrastructure/workflows/build%20Flake%20systems/badge.svg?branch=develop]]
-
+  #+html: <p align="center"><img src="https://github.com/njkli/infrastructure/workflows/build%20Flake%20systems/badge.svg?branch=develop][https://github.com/njkli/infrastructure/workflows/build%20Flake%20systems/badge.svg?branch=develop" /></p>
 ** In short
    building/deploying essentials with nix. Leveraging free tiers on ci/cd platforms.
 ** k8s
