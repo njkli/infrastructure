@@ -32,6 +32,14 @@ let
       git log --name-only -n 1 --format=""
     '';
 
+    build-ipxe-release = writeShellScriptBin "build-ipxe-release" ''
+      BINCACHEDIR="''${PWD}/bincache"
+      mkdir -p "''${BINCACHEDIR}"
+      flake_url="git+https://''${DEPLOYMENT_KEY}@github.com/njkli/systems"
+
+      src_dir=$(nix build ''${flake_url}#nixosConfigurations.installer-public-img.config.system.build.netbootRelease --impure --json | jq -r '.[] | .outputs.out')
+      cp $src_dir/* ''${BINCACHEDIR}
+    '';
 
     # FIXME: Should really switch to github caching of /nix dir or use cachix properly here
     binary-cache-build = writeShellScriptBin "binary-cache-build" ''

@@ -50,6 +50,8 @@ let
             "version": "2.2.4"
         },
 
+newoci = pkgs.terraform-providers.oci.overrideAttrs (oldAttrs: {name = "terraform-provider-oci-4.7.0"; version = "4.7.0"; src = pkgs.fetchFromGitHub {owner = "terraform-providers"; repo = "terraform-provider-oci"; rev = "v4.7.0"; sha256 = "0p14lk3147laplv139xnz96awlb4vv102nzmwps9r6mls1lag5fg";};})
+
     */
     # providers that were moved to the `hashicorp` organization,
     # but haven't updated their references yet:

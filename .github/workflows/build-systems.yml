@@ -35,6 +35,22 @@ jobs:
         PUSHOVER_USER: ${{ secrets.PUSHOVER_USER_KEY }}
       run: ./deploy/systems/build-flakes.sh
 
+    - name: Create ipxe release
+      env:
+        CACHE_SIGNING_KEY: '${{ secrets.CACHE_SIGNING_KEY }}'
+        DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
+      run: nix-shell --run "build-ipxe-release"
+
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: bincache/**/*
+        release_name: ipxe
+        tag: ${{ github.ref }}
+        overwrite: true
+        file_glob: true
+
     - name: Push Build Status Notifications
       if: ${{ always() }}
       uses: umahmood/pushover-actions@v1.0.0
