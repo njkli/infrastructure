@@ -1,0 +1,11 @@
+{
+
+    "vultr": {
+        "owner": "CptKirk",
+        "repo": "terraform-provider-vultr",
+        "rev": "df735bc6d530a69eccabc820dd759bfeeb840da0",
+        "sha256": "04qy366ignn53bbdj9s3032qr1x7h84q36qzl5ywydlw2va0qbsd",
+        "version": "1.5.0"
+    }
+
+}
