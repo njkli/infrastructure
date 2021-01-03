@@ -2,7 +2,7 @@
 let
   pkgs = import sources.nixpkgs { };
   inherit (pkgs) callPackage writeShellScriptBin fetchFromGitHub;
-  inherit (pkgs.lib) getAttrs mapAttrs;
+  inherit (pkgs.lib) getAttrs mapAttrs replaceStrings fileContents;
   inherit (builtins) toJSON fromJSON;
 
   gitignoreSource = (import sources."gitignore.nix" { inherit (pkgs) lib; }).gitignoreSource;
@@ -11,8 +11,21 @@ let
 
   terranix_release = callPackage sources.terranix { };
   tf = import ./terraform { inherit pkgs; };
+  tf_scripts_path = "${pkgs.path}/pkgs/applications/networking/cluster/terraform-providers/";
 
   scripts = {
+    update-provider = writeShellScriptBin "update-provider" (fileContents (tf_scripts_path + "update-provider"));
+    update-all-providers = writeShellScriptBin "update-all-providers" (
+      replaceStrings
+        [ "./update-provider" ]
+        [ "update-provider" ]
+        (fileContents (tf_scripts_path + "update-all-providers"))
+    );
+
+    tf-update-providers = writeShellScriptBin "tf-update-providers" ''
+      update-all-providers
+    '';
+
     localDevCredentials = writeShellScriptBin "localDevCredentials" ''
       [[ -r /persist/etc/nixos/systems/secrets/credentials.nix ]] && \
         eval "$(nix-instantiate --eval /persist/etc/nixos/systems/secrets/credentials.nix --attr njk.credentials.export_shell --json | jq -r)" || true
@@ -94,7 +107,7 @@ in
     inherit (pre-commit-hooks) pre-commit;
     inherit (pkgs)
       niv
-      jq
+      jq moreutils coreutils
       httpie
       vultr-cli
       scaleway-cli
@@ -107,7 +120,6 @@ in
       kubectl
       fluxctl
       kubernetes-helm;
-    # terraform = pkgs.terraform_0_13.withPlugins (p: (map (x: p."${x}") terraform_providers));
     terraform = tf.terraform_with_plugins;
     # ruby = pkgs.ruby.withPackages (p: [ p.rbnacl ]);
   } // scripts;

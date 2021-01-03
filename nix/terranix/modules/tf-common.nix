@@ -1,8 +1,8 @@
 { lib, ... }:
 let
-  inherit (lib) mkMerge;
+  inherit (lib) mkMerge importJSON;
   inherit (builtins) fromJSON readFile;
-  terraform = (fromJSON (readFile ../../../deploy/terraform-providers.json)).terraform;
+  terraform = (importJSON ../../../deploy/terraform-providers.json).terraform;
 in
 {
   # TODO: lib functions
