@@ -34,6 +34,7 @@ jobs:
         DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
       run: nix-shell --run "build-ipxe-release"
 
+    # LOOKUP: https://github.com/svenstaro/upload-release-action
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:

@@ -48,7 +48,7 @@ let
       name = mkOption {
         default = "";
         description = "name";
-        type = str;
+        type = nullOr str;
       };
       data = mkOption {
         description = "data";
@@ -85,7 +85,7 @@ in
           # NOTE: server_ip = "169.254.1.1"; forces replacement!
           # https://github.com/vultr/terraform-provider-vultr/blob/df735bc6d530a69eccabc820dd759bfeeb840da0/vultr/resource_vultr_dns_domain.go#L60
           inherit domain;
-          server_ip = "127.0.0.1";
+          ip = "127.0.0.1";
           provisioner = provisioner domain;
         })
         cfg.dns.domains;

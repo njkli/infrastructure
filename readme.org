@@ -1,4 +1,5 @@
 [[https://github.com/njkli/infrastructure/workflows/build%20Flake%20systems/badge.svg?branch=develop]]
+[[https://github.com/njkli/infrastructure/workflows/build%20iPXE%20image/badge.svg][https://github.com/njkli/infrastructure/workflows/build%20iPXE%20image/badge.svg]]
 * njk.li infrastructure
 ** In short
    building/deploying essentials with nix. Leveraging free tiers on ci/cd platforms.

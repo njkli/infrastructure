@@ -88,7 +88,7 @@ let
       set -o pipefail
       tf-required_providers
       terranix --with-nulls | jq '.' > config.tf.json
-      terraform init &> /dev/null
+      terraform init -upgrade &> /dev/null
       terraform apply -input=false -auto-approve
     '';
 

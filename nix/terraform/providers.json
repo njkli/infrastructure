@@ -9,13 +9,13 @@
     "version": "2.3.0"
   },
   "github": {
-    "owner": "terraform-providers",
+    "owner": "integrations",
     "provider-source-address": "registry.terraform.io/hashicorp/github",
     "repo": "terraform-provider-github",
-    "rev": "v4.1.0",
-    "sha256": "1krlzjnddypxkw86p2c4vm6578608k5w4sq00hfsjn4g7ck9wgnj",
+    "rev": "v4.2.0",
+    "sha256": "sha256-EZHI6w5Ac2OqdWDDFRf/Q3SOf8MkliYx7msaBbIJS4s=",
     "vendorSha256": null,
-    "version": "4.1.0"
+    "version": "4.2.0"
   },
   "helm": {
     "owner": "hashicorp",
@@ -47,18 +47,18 @@
     "owner": "terraform-providers",
     "provider-source-address": "registry.terraform.io/hashicorp/oci",
     "repo": "terraform-provider-oci",
-    "rev": "v4.7.0",
-    "sha256": "0p14lk3147laplv139xnz96awlb4vv102nzmwps9r6mls1lag5fg",
+    "rev": "v4.9.0",
+    "sha256": "0702h2zjrwv4if19acj64ry3zshhp96lp7zrvsjl32vd18jir71g",
     "vendorSha256": null,
-    "version": "4.7.0"
+    "version": "4.9.0"
   },
   "vultr": {
     "owner": "vultr",
     "provider-source-address": "registry.terraform.io/vultr/vultr",
     "repo": "terraform-provider-vultr",
-    "rev": "v2.1.1",
-    "sha256": "1fjb4w2ww8z9mv9rsb0ah77bj84j014v6vnsibmwcafb2b6irnv5",
+    "rev": "v2.1.2",
+    "sha256": "1fi78qvlyi2zph440x72jawd8n2p7mid00p4ygr0x790jhv248jc",
     "vendorSha256": null,
-    "version": "2.1.1"
+    "version": "2.1.2"
   }
 }

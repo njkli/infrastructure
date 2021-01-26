@@ -17,10 +17,10 @@ in
 
   vultr.dns.domains."${dom}" = [
     # Github pages
-    { name = ""; data = "185.199.108.153"; type = "A"; }
-    { name = ""; data = "185.199.109.153"; type = "A"; }
-    { name = ""; data = "185.199.110.153"; type = "A"; }
-    { name = ""; data = "185.199.111.153"; type = "A"; }
+    { name = dom; data = "185.199.108.153"; type = "A"; }
+    { name = dom; data = "185.199.109.153"; type = "A"; }
+    { name = dom; data = "185.199.110.153"; type = "A"; }
+    { name = dom; data = "185.199.111.153"; type = "A"; }
     { name = "www"; data = "njkli.github.io"; type = "CNAME"; }
   ];
 

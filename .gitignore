@@ -1,7 +1,9 @@
 /result
 # /.pre-commit-config.yaml
 /deploy/**/.terraform
+/deploy/**/.terraform.lock.hcl
 /deploy/**/*.tf.json
 /deploy/**/*.log
 /deploy/terraform-providers.json
 # /nix/terraform/providers.json
+Logs

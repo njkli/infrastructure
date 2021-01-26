@@ -2,7 +2,7 @@
 let
   inherit (lib) mkMerge importJSON;
   inherit (builtins) fromJSON readFile;
-  terraform = (importJSON ../../../deploy/terraform-providers.json).terraform;
+  # terraform = (importJSON ../../../deploy/terraform-providers.json).terraform;
 in
 {
   # TODO: lib functions
@@ -15,6 +15,6 @@ in
   # };
 
   config = mkMerge [
-    { inherit terraform; }
+    { inherit (importJSON ../../../deploy/terraform-providers.json) terraform; }
   ];
 }
