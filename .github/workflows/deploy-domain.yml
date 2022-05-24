@@ -57,7 +57,7 @@ jobs:
 
     - name: Push Build Status Notifications
       if: ${{ always() }}
-      uses: umahmood/pushover-actions@v1.0.0
+      uses: umahmood/pushover-actions@v1.1.0
       env:
         PUSHOVER_TOKEN: ${{ secrets.PUSHOVER_API_TOKEN }}
         PUSHOVER_USER: ${{ secrets.PUSHOVER_USER_KEY }}
